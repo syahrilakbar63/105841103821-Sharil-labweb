@@ -6,11 +6,12 @@ const App = () => {
 
     <View style={{
       flex: 1,
+      marginTop: 300
     }}>
     <View style={{
-      flex: 1,
-      justifyContent: 'flex-start',
-      alignItems: 'flex-start',
+      // flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
     }}>
 
       <View style={{
@@ -21,9 +22,9 @@ const App = () => {
       </View>
       </View>
       <View style={{
-        flex: 1,
-        justifyContent: 'flex-end',
-        alignItems: 'flex-end',
+        // flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
       }}>
         <View style={{
           width: 100,
