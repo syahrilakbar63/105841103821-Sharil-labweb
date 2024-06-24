@@ -1,62 +1,41 @@
-import { View, Text } from "react-native";
-import React from "react";
+import { StyleSheet, Text, View, TextInput } from 'react-native'
+import React from 'react'
+
+const ButtonCostum = ({text, color}) => {
+
+  return (
+    <View style={{
+      backgroundColor: color,
+      width: 250,
+      height: 100,
+      borderRadius: 10,
+      justifyContent: 'center',
+      marginBottom: 10,
+    }}>
+      <Text style={{
+        textAlign: 'center',
+        color: 'white',
+        fontSize: 30,
+        fontWeight: 'bold'
+      }}>
+        {text}
+      </Text>
+    </View>
+  )
+}
 
 const App = () => {
-  return (
-
-    <View style={{
-      flex: 1,
-      flexDirection: "row"
-    }}>
+  return(
     <View style={{
       flex: 1,
       justifyContent: 'center',
-      alignItems: 'flex-end',
+      alignItems: 'center',
     }}>
-
-      <View style={{
-        width: 140,
-        height: 80, 
-        backgroundColor: 'red',
-        borderRadius: 10,
-        marginRight: 10,
-        justifyContent: 'center',
-        alignItems: 'center'
-      }}>
-      <Text style={{
-        color: "white",
-        fontSize: 25,
-      }}>
-        SIGN IN
-        </Text> 
-      </View>
-      </View>
-
-      <View style={{
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'flex-start',
-      }}>
-        <View style={{
-          width: 140,
-          height: 80,
-          backgroundColor: 'blue',
-          borderRadius: 10,
-          marginLeft: 10,
-          justifyContent: 'center',
-          alignItems: 'center'
-        }}>
-          <Text style={{
-            color: "white",
-            fontSize: 25,
-          }}>
-            SIGN UP
-          </Text>
-
-        </View>
-        </View>
-      </View>
-  );
+      <ButtonCostum text="Login" color="red"/>
+      <ButtonCostum text="Register" color="blue"/>
+      <ButtonCostum text="Register" color="green"/>
+    </View>
+  )
 }
 
-export default App;
+export default App
