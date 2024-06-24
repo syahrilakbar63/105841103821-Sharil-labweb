@@ -24,16 +24,34 @@ const ButtonCostum = ({text, color}) => {
   )
 }
 
+const TextInputCostum = ({placeholder, color, typeKeyboard}) => {
+  return (
+    <TextInput
+      placeholder={placeholder}
+      keyboardType={typeKeyboard}
+      style={{
+        width: 250,
+        height: 50,
+        borderColor: color,
+        borderWidth: 1,
+        borderRadius: 10,
+        marginBottom: 10,
+        paddingLeft: 10,
+      }}
+    />
+  );
+};
+
 const App = () => {
-  return(
+  return (
     <View style={{
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
     }}>
-      <ButtonCostum text="Login" color="red"/>
-      <ButtonCostum text="Register" color="blue"/>
-      <ButtonCostum text="Register" color="green"/>
+      <TextInputCostum placeholder="Username" color="red" />
+      <TextInputCostum placeholder="Password" color="red" />
+      <TextInputCostum placeholder="Gmail" color="red" />
     </View>
   )
 }
