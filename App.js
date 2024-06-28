@@ -1,59 +1,35 @@
-import { StyleSheet, Text, View, TextInput } from 'react-native'
-import React from 'react'
+import { useFonts } from 'expo-font';
+import {View, Text} from 'react-native'
 
-const ButtonCostum = ({text, color}) => {
-
+export default function App() {
+  const [dapatFont] = useFonts({
+    'MetroBlack': require('./assets/fonts/Metropolis-Black.otf'),
+    'MetroBold': require('./assets/fonts/Metropolis-Bold.otf'),
+    'MetroLight': require('./assets/fonts/Metropolis-Light.otf'),
+    'MetroSemiBold': require('./assets/fonts/Metropolis-SemiBold.otf'),
+  });
+  if (!dapatFont) {
+    return <Text>Font tidak ditemukan</Text>
+  }
   return (
-    <View style={{
-      backgroundColor: color,
-      width: 250,
-      height: 100,
-      borderRadius: 10,
-      justifyContent: 'center',
-      marginBottom: 10,
+    <View style ={{
+      flex :1,
+      justifyContent : 'center',
+      alignItems : 'center',
     }}>
-      <Text style={{
-        textAlign: 'center',
-        color: 'white',
-        fontSize: 30,
-        fontWeight: 'bold'
-      }}>
-        {text}
-      </Text>
+      <Text style ={{
+        fontFamily : 'MetroBlack',
+      }}>Font Metropolis Black</Text>
+      <Text style ={{
+        fontFamily : 'MetroBold',
+      }}>Font Metropolis Bold</Text>
+      <Text style ={{
+        fontFamily : 'MetroLight',
+      }}>Font Metropolis Light</Text>
+      <Text style ={{
+        fontFamily : 'MetroSemiBold',
+      }}>Font Metropolis SemiBold</Text>
+      <Text>Ini Text Biasa</Text>
     </View>
-  )
-}
-
-const TextInputCostum = ({placeholder, color, typeKeyboard}) => {
-  return (
-    <TextInput
-      placeholder={placeholder}
-      keyboardType={typeKeyboard}
-      style={{
-        width: 250,
-        height: 50,
-        borderColor: color,
-        borderWidth: 1,
-        borderRadius: 10,
-        marginBottom: 10,
-        paddingLeft: 10,
-      }}
-    />
   );
-};
-
-const App = () => {
-  return (
-    <View style={{
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-    }}>
-      <TextInputCostum placeholder="Username" color="red" />
-      <TextInputCostum placeholder="Password" color="red" />
-      <TextInputCostum placeholder="Gmail" color="red" />
-    </View>
-  )
 }
-
-export default App
