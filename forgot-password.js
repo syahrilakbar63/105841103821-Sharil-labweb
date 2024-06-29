@@ -1,7 +1,6 @@
 import { StyleSheet, View, Text, TextInput, Image } from 'react-native';
 import React from 'react';
 
-// Custom button component
 const ButtonCustom = ({ text, color }) => {
   return (
     <View style={{
@@ -24,7 +23,6 @@ const ButtonCustom = ({ text, color }) => {
   )
 }
 
-// Custom text input component
 const TextInputCustom = ({ placeholder, typekeyboard }) => {
   return (
     <TextInput
@@ -44,27 +42,25 @@ const TextInputCustom = ({ placeholder, typekeyboard }) => {
   )
 }
 
-// Main app component
 const App = () => {
   return (
     <View style={styles.container}>
       <View style={styles.content}>
         <Text style={styles.title}>Forgot password</Text>
         <View style={styles.form}>
-          <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginBottom: 10 }}>
-            <Text style={{ fontSize: 12, textAlign:'center' }}>Please, enter your email address. You will receive a link to create a new password via email.</Text>
+        <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginBottom: 10 }}>
+            <Text style={{ fontSize: 12, textAlign:'center' }}>Please,enter your email address. You will receive a link to create a new password via email.</Text>
           </View>
           <TextInputCustom placeholder="Email" typekeyboard="email-address" />
           <ButtonCustom text="SEND" color="red" />
         </View>
       </View>
-    </View>
+      </View>
   )
 }
 
 export default App;
 
-// Styles
 const styles = StyleSheet.create({
   container: {
     flex: 1,
