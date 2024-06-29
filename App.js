@@ -1,8 +1,8 @@
 import { StyleSheet, View, Text, TextInput, Image } from 'react-native';
 import React from 'react';
+import { useFonts } from 'expo-font'
 
-// Custom button component
-const ButtonCustom = ({ text, color }) => {
+const CustomButton = ({ text, color }) => {
   return (
     <View style={{
       backgroundColor: color,
@@ -21,15 +21,14 @@ const ButtonCustom = ({ text, color }) => {
         {text}
       </Text>
     </View>
-  )
-}
+  );
+};
 
-// Custom text input component
-const TextInputCustom = ({ placeholder, typekeyboard }) => {
+const CustomTextInput = ({ placeholder, keyboardType }) => {
   return (
     <TextInput
       placeholder={placeholder}
-      keyboardType={typekeyboard}
+      keyboardType={keyboardType}
       style={{
         width: '100%',
         height: 50,
@@ -39,32 +38,47 @@ const TextInputCustom = ({ placeholder, typekeyboard }) => {
         marginBottom: 20,
         paddingLeft: 10,
         fontSize: 18,
+        fontFamily: 'MetroMedium',
       }}
     />
-  )
-}
+  );
+};
 
-// Main app component
-const App = () => {
+export default function App() {
+    const [dapatFont]=useFonts({
+      'MetroBold': require('./assets/fonts/Metropolis-Bold.otf'),
+      'MetroMedium': require('./assets/fonts/Metropolis-Medium.otf'),
+    });
+    if (!dapatFont){
+      return <Text>Font tidak di temukan...</Text>
+    }
+
   return (
     <View style={styles.container}>
       <View style={styles.content}>
-        <Text style={styles.title}>Forgot password</Text>
+        <Text style={styles.title}>Login</Text>
         <View style={styles.form}>
+          <CustomTextInput placeholder="Email" keyboardType="email-address" />
+          <CustomTextInput placeholder="Password" keyboardType="default" />
           <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginBottom: 10 }}>
-            <Text style={{ fontSize: 12, textAlign:'center' }}>Please, enter your email address. You will receive a link to create a new password via email.</Text>
+            <Text style={{ fontSize: 16, textAlign: 'center' }}>Forgot your password?</Text>
           </View>
-          <TextInputCustom placeholder="Email" typekeyboard="email-address" />
-          <ButtonCustom text="SEND" color="red" />
+          <CustomButton text="LOGIN" color="red" />
+        </View>
+      </View>
+      <Text style={{ fontSize: 16, textAlign: 'center' }}>Or login with social account</Text>
+      <View style={styles.logoRow}>
+        <View style={styles.logoContainer}>
+          <Image source={require('./assets/facebook.png')} style={styles.logo} />
+        </View>
+        <View style={styles.logoContainer}>
+          <Image source={require('./assets/google.png')} style={styles.logo} />
         </View>
       </View>
     </View>
-  )
+  );
 }
 
-export default App;
-
-// Styles
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -78,11 +92,27 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 32,
-    fontWeight: 'bold',
+    fontFamily: 'MetroBold',
     marginBottom: 40,
   },
   form: {
     width: '100%',
     alignItems: 'center',
-  }
+  },
+  logoRow: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 20,
+  },
+  logoContainer: {
+    backgroundColor: 'white',
+    borderRadius: 15,
+    padding: 10,
+    marginHorizontal: 10,
+  },
+  logo: {
+    width: 50,
+    height: 50,
+  },
 });

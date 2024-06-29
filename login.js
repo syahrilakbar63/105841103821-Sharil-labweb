@@ -1,5 +1,6 @@
 import { StyleSheet, View, Text, TextInput, Image } from 'react-native';
 import React from 'react';
+import { useFonts } from 'expo-font'
 
 const CustomButton = ({ text, color }) => {
   return (
@@ -37,12 +38,21 @@ const CustomTextInput = ({ placeholder, keyboardType }) => {
         marginBottom: 20,
         paddingLeft: 10,
         fontSize: 18,
+        fontFamily: 'MetroMedium',
       }}
     />
   );
 };
 
 export default function App() {
+    const [dapatFont]=useFonts({
+      'MetroBold': require('./assets/fonts/Metropolis-Bold.otf'),
+      'MetroMedium': require('./assets/fonts/Metropolis-Medium.otf'),
+    });
+    if (!dapatFont){
+      return <Text>Font tidak di temukan...</Text>
+    }
+
   return (
     <View style={styles.container}>
       <View style={styles.content}>
@@ -82,7 +92,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 32,
-    fontWeight: 'bold',
+    fontFamily: 'MetroBold',
     marginBottom: 40,
   },
   form: {
