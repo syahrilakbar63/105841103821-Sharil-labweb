@@ -1,115 +1,130 @@
-import { StyleSheet, View, Text, TextInput, Image } from 'react-native';
+import { Text, View, TextInput, TouchableOpacity, Image } from 'react-native';
 import React from 'react';
+import { useFonts } from 'expo-font';
 
-// Custom button component
-const CustomButton = ({ text, color }) => {
+const ButtonCustom = ({ text, color }) => {
   return (
-    <View style={{
-      backgroundColor: color,
-      width: '100%',
-      height: 50,
-      borderRadius: 25,
-      justifyContent: 'center',
-      marginTop: 20,
-    }}>
-      <Text style={{
-        textAlign: 'center',
-        color: 'white',
-        fontSize: 18,
-        fontWeight: 'bold',
+    <TouchableOpacity>
+      <View style={{
+        width: 320,
+        height: 50,
+        backgroundColor: color,
+        borderRadius: 50,
+        marginBottom: 40,
+        justifyContent: 'center',
+        alignItems: 'center',
       }}>
-        {text}
-      </Text>
-    </View>
+        <Text style={{
+          textAlign: 'center',
+          color: 'white',
+          fontSize: 18,
+          fontWeight: 'bold'
+        }}>
+          {text}
+        </Text>
+      </View>
+    </TouchableOpacity>
   );
-};
+}
 
-// Custom text input component
-const CustomTextInput = ({ placeholder, keyboardType }) => {
+const TextInputCustom = ({ placeholder, color, typeKeyboard }) => {
   return (
     <TextInput
+      keyboardType={typeKeyboard}
       placeholder={placeholder}
-      keyboardType={keyboardType}
       style={{
-        width: '100%',
-        height: 50,
-        borderColor: 'gray',
+        width: 250,
+        height: 40,
+        borderColor: color,
         borderWidth: 1,
-        borderRadius: 10,
+        borderRadius: 5,
         marginBottom: 20,
         paddingLeft: 10,
-        fontSize: 18,
+        fontFamily: 'MetroMedium',
       }}
     />
   );
-};
+}
 
-// Main app component
-const App = () => {
+const signIn = () => {
+  const [dapatFont] = useFonts({
+    'MetroBold': require('./assets/fonts/Metropolis-Bold.otf'),
+    'MetroMedium': require('./assets/fonts/Metropolis-Medium.otf'),
+  });
+  if (!dapatFont) {
+    return <Text>Font tidak ditemukan...</Text>
+  }
+
   return (
-    <View style={styles.container}>
-      <View style={styles.content}>
-        <Text style={styles.title}>Sign Up</Text>
-        <View style={styles.form}>
-          <CustomTextInput placeholder="Name" keyboardType="default" />
-          <CustomTextInput placeholder="Email" keyboardType="email-address" />
-          <CustomTextInput placeholder="Password" keyboardType="default" />
-          <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginBottom: 10 }}>
-            <Text style={{ fontSize: 16, textAlign: 'center' }}>Already have an account?</Text>
-          </View>
-          <CustomButton text="SIGN UP" color="red" />
-        </View>
+    <View style={{
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: '#fff',
+      padding: 16,
+    }}>
+      <View style={{
+        width: '100%',
+        alignItems: 'center',
+        marginBottom: -10
+      }}>
+        <Text style={{
+          fontSize: 50,
+          textAlign: 'center',
+          fontFamily: 'MetroBold',
+          marginBottom: 16,
+          marginTop: 50,
+        }}>Sign Up</Text>
       </View>
-      <Text style={{ fontSize: 16, textAlign: 'center' }}>Or sign up with social account</Text>
-      <View style={styles.logoRow}>
-        <View style={styles.logoContainer}>
-          <Image source={require('./assets/facebook.png')} style={styles.logo} />
-        </View>
-        <View style={styles.logoContainer}>
-          <Image source={require('./assets/google.png')} style={styles.logo} />
+      <View style={{
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}>
+        <TextInputCustom placeholder="Name" color="black" typeKeyboard="default" />
+        <TextInputCustom placeholder="Email" color="black" typeKeyboard="email-address" />
+        <TextInputCustom placeholder="Password" color="black" typeKeyboard="default" />
+        <ButtonCustom text="SIGN UP" color="red" />
+        <Text style={{
+          fontSize: 16,
+          color: '#555',
+          marginBottom: 16,
+          textAlign: 'center',
+          width: '100%',
+        }}>Already have an account?</Text>
+        <View style={{
+          flexDirection: 'row',
+          justifyContent: 'space-around',
+          width: '50%',
+        }}>
+          <TouchableOpacity style={{
+            width: 50,
+            height: 50,
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginHorizontal: 8,
+          }}>
+            <Image source={require('./assets/google.png')} style={{
+              width: 40,
+              height: 40,
+            }} />
+          </TouchableOpacity>
+          <TouchableOpacity style={{
+            width: 50,
+            height: 50,
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginHorizontal: 8,
+          }}>
+            <Image source={require('./assets/facebook.png')} style={{
+              width: 40,
+              height: 40,
+            }} />
+          </TouchableOpacity>
         </View>
       </View>
     </View>
   );
-};
+}
 
-export default App;
-
-// Styles
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F0F8FF',
-    padding: 20,
-  },
-  content: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  title: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    marginBottom: 40,
-  },
-  form: {
-    width: '100%',
-    alignItems: 'center',
-  },
-  logoRow: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingVertical: 20,
-  },
-  logoContainer: {
-    backgroundColor: 'white',
-    borderRadius: 15,
-    padding: 10,
-    marginHorizontal: 10,
-  },
-  logo: {
-    width: 50,
-    height: 50,
-  },
-});
+export default signIn;
