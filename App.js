@@ -1,18 +1,18 @@
-import { Text, View, TextInput, TouchableOpacity, Image } from 'react-native';
-import React from 'react';
+import { Text, View, TextInput, TouchableOpacity } from "react-native";
+import React, { useState } from "react";
 import { useFonts } from 'expo-font';
 
-const ButtonCustom = ({ text, color }) => {
+const ButtonCustom = ({ text, color, onPress }) => {
   return (
-    <TouchableOpacity>
+    <TouchableOpacity onPress={onPress} style={{ width: "100%", alignItems: "center" }}>
       <View style={{
-        width: 320,
+        width: '80%',
         height: 50,
         backgroundColor: color,
-        borderRadius: 50,
-        marginBottom: 40,
+        borderRadius: 25,
         justifyContent: 'center',
         alignItems: 'center',
+        marginTop: 20,
       }}>
         <Text style={{
           textAlign: 'center',
@@ -27,32 +27,50 @@ const ButtonCustom = ({ text, color }) => {
   );
 }
 
-const TextInputCustom = ({ placeholder, color, typeKeyboard }) => {
+const TextInputCustom = ({ placeholder, color, typeKeyboard, value, onChangeText, error }) => {
   return (
-    <TextInput
-      keyboardType={typeKeyboard}
-      placeholder={placeholder}
-      style={{
-        width: 250,
-        height: 40,
-        borderColor: color,
-        borderWidth: 1,
-        borderRadius: 5,
-        marginBottom: 20,
-        paddingLeft: 10,
-        fontFamily: 'MetroMedium',
-      }}
-    />
+    <View style={{ marginBottom: 20, width: '100%', alignItems: 'center' }}>
+      <TextInput
+        keyboardType={typeKeyboard}
+        placeholder={placeholder}
+        value={value}
+        onChangeText={onChangeText}
+        style={{
+          width: '80%',
+          height: 40,
+          borderColor: color,
+          borderWidth: 1,
+          borderRadius: 5,
+          paddingLeft: 10,
+          fontFamily: 'MetroMedium',
+        }}
+      />
+      {error && <Text style={{ color: 'red', marginTop: 5 }}>{error}</Text>}
+    </View>
   );
 }
 
-const signIn = () => {
+const ForgotPassword = () => {
+  const [email, setEmail] = useState('');
+  const [error, setError] = useState('');
+
+  const validateEmail = () => {
+    // Basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setError('Not a valid email address. Should be your@email.com');
+    } else {
+      setError('');
+      console.log('Email is valid');
+    }
+  };
+
   const [dapatFont] = useFonts({
     'MetroBold': require('./assets/fonts/Metropolis-Bold.otf'),
     'MetroMedium': require('./assets/fonts/Metropolis-Medium.otf'),
   });
   if (!dapatFont) {
-    return <Text>Font tidak ditemukan...</Text>
+    return <Text>Font not found...</Text>
   }
 
   return (
@@ -66,65 +84,45 @@ const signIn = () => {
       <View style={{
         width: '100%',
         alignItems: 'center',
-        marginBottom: -10
+        marginBottom: 24,
       }}>
-        <Text style={{
-          fontSize: 50,
-          textAlign: 'center',
-          fontFamily: 'MetroBold',
-          marginBottom: 16,
-          marginTop: 50,
-        }}>Sign Up</Text>
+        <TouchableOpacity>
+          <Text style={{ fontSize: 16, color: 'black' }}>{'<'}</Text>
+        </TouchableOpacity>
       </View>
       <View style={{
-        flex: 1,
-        justifyContent: 'center',
+        width: '100%',
         alignItems: 'center',
+        marginBottom: 16,
       }}>
-        <TextInputCustom placeholder="Name" color="black" typeKeyboard="default" />
-        <TextInputCustom placeholder="Email" color="black" typeKeyboard="email-address" />
-        <TextInputCustom placeholder="Password" color="black" typeKeyboard="default" />
-        <ButtonCustom text="SIGN UP" color="red" />
+        <Text style={{
+          fontSize: 24,
+          fontFamily: 'MetroBold',
+          marginBottom: 16,
+        }}>Forgot Password</Text>
         <Text style={{
           fontSize: 16,
           color: '#555',
-          marginBottom: 16,
+          width: '80%',
           textAlign: 'center',
-          width: '100%',
-        }}>Already have an account?</Text>
-        <View style={{
-          flexDirection: 'row',
-          justifyContent: 'space-around',
-          width: '50%',
-        }}>
-          <TouchableOpacity style={{
-            width: 50,
-            height: 50,
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginHorizontal: 8,
-          }}>
-            <Image source={require('./assets/google.png')} style={{
-              width: 40,
-              height: 40,
-            }} />
-          </TouchableOpacity>
-          <TouchableOpacity style={{
-            width: 50,
-            height: 50,
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginHorizontal: 8,
-          }}>
-            <Image source={require('./assets/facebook.png')} style={{
-              width: 40,
-              height: 40,
-            }} />
-          </TouchableOpacity>
-        </View>
+        }}>Please, enter your email address. You will receive a link to create a new password via email</Text>
+      </View>
+      <View style={{
+        width: '100%',
+        alignItems: 'center',
+      }}>
+        <TextInputCustom
+          placeholder="Email"
+          color={error ? 'red' : 'black'}
+          typeKeyboard="email-address"
+          value={email}
+          onChangeText={setEmail}
+          error={error}
+        />
+        <ButtonCustom text="SEND" color="red" onPress={validateEmail} />
       </View>
     </View>
   );
 }
 
-export default signIn;
+export default ForgotPassword;

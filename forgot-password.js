@@ -1,84 +1,128 @@
-import { StyleSheet, View, Text, TextInput, Image } from 'react-native';
-import React from 'react';
+import { Text, View, TextInput, TouchableOpacity } from "react-native";
+import React, { useState } from "react";
+import { useFonts } from 'expo-font';
 
-const ButtonCustom = ({ text, color }) => {
+const ButtonCustom = ({ text, color, onPress }) => {
+  return (
+    <TouchableOpacity onPress={onPress} style={{ width: "100%", alignItems: "center" }}>
+      <View style={{
+        width: '80%',
+        height: 50,
+        backgroundColor: color,
+        borderRadius: 25,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 20,
+      }}>
+        <Text style={{
+          textAlign: 'center',
+          color: 'white',
+          fontSize: 18,
+          fontWeight: 'bold'
+        }}>
+          {text}
+        </Text>
+      </View>
+    </TouchableOpacity>
+  );
+}
+
+const TextInputCustom = ({ placeholder, color, typeKeyboard, value, onChangeText, error }) => {
+  return (
+    <View style={{ marginBottom: 20, width: '100%', alignItems: 'center' }}>
+      <TextInput
+        keyboardType={typeKeyboard}
+        placeholder={placeholder}
+        value={value}
+        onChangeText={onChangeText}
+        style={{
+          width: '80%',
+          height: 40,
+          borderColor: color,
+          borderWidth: 1,
+          borderRadius: 5,
+          paddingLeft: 10,
+          fontFamily: 'MetroMedium',
+        }}
+      />
+      {error && <Text style={{ color: 'red', marginTop: 5 }}>{error}</Text>}
+    </View>
+  );
+}
+
+const ForgotPassword = () => {
+  const [email, setEmail] = useState('');
+  const [error, setError] = useState('');
+
+  const validateEmail = () => {
+    // Basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setError('Not a valid email address. Should be your@email.com');
+    } else {
+      setError('');
+      console.log('Email is valid');
+    }
+  };
+
+  const [dapatFont] = useFonts({
+    'MetroBold': require('./assets/fonts/Metropolis-Bold.otf'),
+    'MetroMedium': require('./assets/fonts/Metropolis-Medium.otf'),
+  });
+  if (!dapatFont) {
+    return <Text>Font not found...</Text>
+  }
+
   return (
     <View style={{
-      backgroundColor: color,
-      width: '100%',
-      height: 50,
-      borderRadius: 25,
+      flex: 1,
       justifyContent: 'center',
-      marginTop: 20,
+      alignItems: 'center',
+      backgroundColor: '#fff',
+      padding: 16,
     }}>
-      <Text style={{
-        textAlign: 'center',
-        color: 'white',
-        fontSize: 18,
-        fontWeight: 'bold',
-      }}>
-        {text}
-      </Text>
-    </View>
-  )
-}
-
-const TextInputCustom = ({ placeholder, typekeyboard }) => {
-  return (
-    <TextInput
-      placeholder={placeholder}
-      keyboardType={typekeyboard}
-      style={{
+      <View style={{
         width: '100%',
-        height: 50,
-        borderColor: 'gray',
-        borderWidth: 1,
-        borderRadius: 10,
-        marginBottom: 20,
-        paddingLeft: 10,
-        fontSize: 18,
-      }}
-    />
-  )
+        alignItems: 'center',
+        marginBottom: 24,
+      }}>
+        <TouchableOpacity>
+          <Text style={{ fontSize: 16, color: 'black' }}>{'<'}</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={{
+        width: '100%',
+        alignItems: 'center',
+        marginBottom: 16,
+      }}>
+        <Text style={{
+          fontSize: 24,
+          fontFamily: 'MetroBold',
+          marginBottom: 16,
+        }}>Forgot Password</Text>
+        <Text style={{
+          fontSize: 16,
+          color: '#555',
+          width: '80%',
+          textAlign: 'center',
+        }}>Please, enter your email address. You will receive a link to create a new password via email</Text>
+      </View>
+      <View style={{
+        width: '100%',
+        alignItems: 'center',
+      }}>
+        <TextInputCustom
+          placeholder="Email"
+          color={error ? 'red' : 'black'}
+          typeKeyboard="email-address"
+          value={email}
+          onChangeText={setEmail}
+          error={error}
+        />
+        <ButtonCustom text="SEND" color="red" onPress={validateEmail} />
+      </View>
+    </View>
+  );
 }
 
-const App = () => {
-  return (
-    <View style={styles.container}>
-      <View style={styles.content}>
-        <Text style={styles.title}>Forgot password</Text>
-        <View style={styles.form}>
-        <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginBottom: 10 }}>
-            <Text style={{ fontSize: 12, textAlign:'center' }}>Please,enter your email address. You will receive a link to create a new password via email.</Text>
-          </View>
-          <TextInputCustom placeholder="Email" typekeyboard="email-address" />
-          <ButtonCustom text="SEND" color="red" />
-        </View>
-      </View>
-      </View>
-  )
-}
-
-export default App;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F0F8FF',
-    padding: 20,
-  },
-  content: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  title: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    marginBottom: 40,
-  },
-  form: {
-    width: '100%',
-    alignItems: 'center',
-  }
-});
+export default ForgotPassword;
