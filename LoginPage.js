@@ -1,6 +1,7 @@
-import { StyleSheet, View, Text, TextInput, Image } from 'react-native';
+import { StyleSheet, View, Text, TextInput, Image, TouchableOpacity } from 'react-native';
 import React from 'react';
-import { useFonts } from 'expo-font'
+import { useFonts } from 'expo-font';
+import { useNavigation } from '@react-navigation/native';
 
 const CustomButton = ({ text, color }) => {
   return (
@@ -44,14 +45,17 @@ const CustomTextInput = ({ placeholder, keyboardType }) => {
   );
 };
 
-export default function App() {
-    const [dapatFont]=useFonts({
-      'MetroBold': require('./assets/fonts/Metropolis-Bold.otf'),
-      'MetroMedium': require('./assets/fonts/Metropolis-Medium.otf'),
-    });
-    if (!dapatFont){
-      return <Text>Font tidak di temukan...</Text>
-    }
+export default function LoginPage() {
+  const [dapatFont] = useFonts({
+    'MetroBold': require('./assets/fonts/Metropolis-Bold.otf'),
+    'MetroMedium': require('./assets/fonts/Metropolis-Medium.otf'),
+  });
+
+  const navigation = useNavigation();
+
+  if (!dapatFont) {
+    return <Text>Font tidak di temukan...</Text>;
+  }
 
   return (
     <View style={styles.container}>
@@ -61,7 +65,9 @@ export default function App() {
           <CustomTextInput placeholder="Email" keyboardType="email-address" />
           <CustomTextInput placeholder="Password" keyboardType="default" />
           <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginBottom: 10 }}>
-            <Text style={{ fontSize: 16, textAlign: 'center' }}>Forgot your password?</Text>
+            <TouchableOpacity onPress={() => navigation.navigate('ForgetPassword')}>
+              <Text style={{ fontSize: 16, textAlign: 'center' }}>Forgot your password?</Text>
+            </TouchableOpacity>
           </View>
           <CustomButton text="LOGIN" color="red" />
         </View>

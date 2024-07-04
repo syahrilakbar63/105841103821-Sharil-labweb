@@ -2,9 +2,9 @@ import { Text, View, TextInput, TouchableOpacity, Image } from 'react-native';
 import React from 'react';
 import { useFonts } from 'expo-font';
 
-const ButtonCustom = ({ text, color }) => {
+const ButtonCustom = ({ text, color, onPress }) => {
   return (
-    <TouchableOpacity>
+    <TouchableOpacity onPress={onPress}>
       <View style={{
         width: 320,
         height: 50,
@@ -46,7 +46,7 @@ const TextInputCustom = ({ placeholder, color, typeKeyboard }) => {
   );
 }
 
-const signIn = () => {
+const SignUpPage = ({ navigation }) => {
   const [dapatFont] = useFonts({
     'MetroBold': require('./assets/fonts/Metropolis-Bold.otf'),
     'MetroMedium': require('./assets/fonts/Metropolis-Medium.otf'),
@@ -84,14 +84,16 @@ const signIn = () => {
         <TextInputCustom placeholder="Name" color="black" typeKeyboard="default" />
         <TextInputCustom placeholder="Email" color="black" typeKeyboard="email-address" />
         <TextInputCustom placeholder="Password" color="black" typeKeyboard="default" />
-        <ButtonCustom text="SIGN UP" color="red" />
-        <Text style={{
-          fontSize: 16,
-          color: '#555',
-          marginBottom: 16,
-          textAlign: 'center',
-          width: '100%',
-        }}>Already have an account?</Text>
+        <ButtonCustom text="SIGN UP" color="red" onPress={() => { /* signup action */ }} />
+        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+          <Text style={{
+            fontSize: 16,
+            color: '#555',
+            marginBottom: 16,
+            textAlign: 'center',
+            width: '100%',
+          }}>Already have an account?</Text>
+        </TouchableOpacity>
         <View style={{
           flexDirection: 'row',
           justifyContent: 'space-around',
@@ -127,4 +129,4 @@ const signIn = () => {
   );
 }
 
-export default signIn;
+export default SignUpPage;
