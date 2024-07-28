@@ -1,128 +1,124 @@
-import { StyleSheet, Text, View, TextInput, Button, Image } from 'react-native';
-import React, { useState } from 'react';
-import axios from 'axios';
+import { StyleSheet, Text, View, SafeAreaView, Image, TouchableOpacity } from 'react-native'
+import React, { Component } from 'react'
+import ImageSlider from 'react-native-image-slider'
 
-const LoginSimak = () => {
-  const [data, setData] = useState({
-    nim: '',
-    password: ''
-  });
-  const [userData, setUserData] = useState(null);
-  const [error, setError] = useState('');
+class App extends Component {
+    render() {
+        const images = [
+            'https://simakad.unismuh.ac.id/upload/mahasiswa/105841103821.jpg',
+            'https://simakad.unismuh.ac.id/upload/mahasiswa/105841103621.jpg',
+            'https://simakad.unismuh.ac.id/upload/mahasiswa/105841105321.jpg',
+            'https://simakad.unismuh.ac.id/upload/mahasiswa/105841105721.jpg',
+            'https://simakad.unismuh.ac.id/upload/mahasiswa/105841103721.jpg',
+        ];
 
-  const onSubmit = () => {
-    axios.post('https://api.beasiswa.unismuh.ac.id/api/login', {
-      username: data.nim,
-      password: data.password
-    })
-      .then(response => {
-        if (response.status === 200) {
-          setUserData(response.data.data);
-          setError('');
-        }
-      })
-      .catch(error => {
-        console.log(error);
-        setError('Ada kesalahan. Silahkan cek kembali nim dan password anda.');
-        setUserData(null);
-      });
-  }
-
-  return (
-    <View style={styles.container}>
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          onChangeText={(value) => setData({ ...data, nim: value })}
-          placeholder="Nim"
-          placeholderTextColor="#aaa"
-        />
-        <TextInput
-          style={styles.input}
-          onChangeText={(value) => setData({ ...data, password: value })}
-          placeholder="Password"
-          placeholderTextColor="#aaa"
-          secureTextEntry
-        />
-        <Button title="Login" onPress={onSubmit} />
-        {error ? <Text style={styles.errorText}>{error}</Text> : null}
-      </View>
-      {userData && (
-        <View style={styles.userDataContainer}>
-          <Text style={styles.userDataText}>ID: {userData.id}</Text>
-          <Text style={styles.userDataText}>Username: {userData.username}</Text>
-          <Text style={styles.userDataText}>Name: {userData.nama}</Text>
-          <Text style={styles.userDataText}>Role: {userData.role}</Text>
-          <Image
-            style={styles.userImage}
-            source={{ uri: `https://simakad.unismuh.ac.id/upload/mahasiswa/${userData.username}.jpg` }}
-          />
-        </View>
-      )}
-    </View>
-  );
+        return (
+            <SafeAreaView style={styles.container}>
+                <View style={styles.header}>
+                    <Text style={styles.headerText}>Manusia Tamvan</Text>
+                </View>
+                <ImageSlider
+                    loopBothSides
+                    autoPlayWithInterval={3000}
+                    images={images}
+                    customSlide={({ index, item, style }) => (
+                        <View key={index} style={[style, styles.customSlide]}>
+                            <Image source={{ uri: item }} style={styles.customImage} />
+                        </View>
+                    )}
+                    customButtons={(position, move) => (
+                        <View style={styles.buttons}>
+                            {images.map((_, index) => {
+                                return (
+                                    <TouchableOpacity
+                                        key={index}
+                                        onPress={() => move(index)}
+                                        style={[
+                                            styles.button,
+                                            position === index && styles.buttonSelected
+                                        ]}
+                                    >
+                                        <Text style={styles.buttonText}>
+                                            {index + 1}
+                                        </Text>
+                                    </TouchableOpacity>
+                                );
+                            })}
+                        </View>
+                    )}
+                />
+                <View style={styles.footer}>
+                    <Text style={styles.footerText}>Produksi by UNISMUH</Text>
+                </View>
+            </SafeAreaView>
+        );
+    }
 }
 
-export default LoginSimak;
+export default App;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#f5f5f5',
-    padding: 20,
-  },
-  inputContainer: {
-    width: '100%',
-    maxWidth: 400,
-    padding: 20,
-    backgroundColor: '#fff',
-    borderRadius: 8,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
-    marginBottom: 20,
-  },
-  input: {
-    height: 50,
-    borderColor: '#ddd',
-    borderWidth: 1,
-    borderRadius: 8,
-    marginBottom: 20,
-    paddingHorizontal: 10,
-    fontSize: 16,
-    color: '#333',
-  },
-  errorText: {
-    color: 'red',
-    marginTop: 10,
-    textAlign: 'center',
-  },
-  userDataContainer: {
-    width: '100%',
-    maxWidth: 400,
-    padding: 20,
-    backgroundColor: '#fff',
-    borderRadius: 8,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
-    alignItems: 'center',
-  },
-  userDataText: {
-    fontSize: 16,
-    color: '#333',
-    marginBottom: 5,
-  },
-  userImage: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    marginTop: 10,
-  },
+    container: {
+        flex: 1,
+        backgroundColor: '#f0f0f0',
+    },
+    header: {
+        padding: 20,
+        backgroundColor: '#6200ea',
+        alignItems: 'center',
+    },
+    headerText: {
+        fontSize: 24,
+        color: 'white',
+        fontWeight: 'bold',
+    },
+    customSlide: {
+        backgroundColor: 'white',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 10,
+        borderRadius: 10,
+        marginVertical: 20,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.8,
+        shadowRadius: 2,
+        elevation: 5,
+    },
+    customImage: {
+        width: 300,
+        height: 300,
+        borderRadius: 10,
+    },
+    buttons: {
+        height: 30,
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'row',
+    },
+    button: {
+        margin: 3,
+        width: 20,
+        height: 20,
+        borderRadius: 10,
+        backgroundColor: 'gray',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    buttonSelected: {
+        backgroundColor: '#6200ea',
+    },
+    buttonText: {
+        color: 'white',
+        fontSize: 12,
+    },
+    footer: {
+        padding: 20,
+        backgroundColor: '#6200ea',
+        alignItems: 'center',
+    },
+    footerText: {
+        fontSize: 16,
+        color: 'white',
+    },
 });
